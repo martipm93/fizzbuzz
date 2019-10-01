@@ -1,4 +1,4 @@
-package com.concatel.exam1;
+package com.concatel.exam1.run;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
