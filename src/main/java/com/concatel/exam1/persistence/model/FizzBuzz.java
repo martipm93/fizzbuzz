@@ -6,6 +6,10 @@ public class FizzBuzz {
 
     private String fizzBuzzString;
 
+    public FizzBuzz() {
+
+    }
+
     public FizzBuzz(String fizzBuzzString) {
         this.fizzBuzzString = fizzBuzzString;
     }
