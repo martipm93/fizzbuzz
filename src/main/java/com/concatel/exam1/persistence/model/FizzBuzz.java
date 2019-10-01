@@ -6,7 +6,7 @@ public class FizzBuzz {
 
     private String fizzBuzzString;
 
-    public FizzBuzz(final String fizzBuzzString) {
+    public FizzBuzz(String fizzBuzzString) {
         this.fizzBuzzString = fizzBuzzString;
     }
 
