@@ -1,4 +1,9 @@
 package com.concatel.exam1.service;
 
-public class FizzBuzzService {
+import com.concatel.exam1.persistence.model.FizzBuzz;
+
+import java.io.Serializable;
+
+public interface FizzBuzzService extends Serializable {
+    FizzBuzz findByName(int firstNumber);
 }

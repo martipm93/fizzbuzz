@@ -2,26 +2,21 @@ package com.concatel.exam1.web.controller;
 
 import com.concatel.exam1.persistence.model.FizzBuzz;
 import com.concatel.exam1.service.FizzBuzzService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/api/fizzbuzz")
 public class FizzBuzzController {
 
-    private FizzBuzzService service;
+    @Autowired
+    private FizzBuzzService fizzBuzzService;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{firstNumber}", method = RequestMethod.GET)
     @ResponseBody
-    public FizzBuzz findOne(@PathVariable("id") final int id) {
+    public FizzBuzz findOne(@PathVariable("firstNumber") int firstNumber) {
 
-        //Temporary response.
-        FizzBuzz fizzBuzz = new FizzBuzz();
-        return fizzBuzz;
-
-        // TODO - make the logic into service and here only use that service method in the return.
+        return fizzBuzzService.findByName(firstNumber);
     }
 }

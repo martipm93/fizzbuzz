@@ -1,5 +1,6 @@
 package com.concatel.exam1;
 
+import com.concatel.exam1.FizzBuzzApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
