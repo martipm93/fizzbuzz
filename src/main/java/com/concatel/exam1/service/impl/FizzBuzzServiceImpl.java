@@ -6,6 +6,8 @@ import com.concatel.exam1.service.FizzBuzzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -16,14 +18,15 @@ public class FizzBuzzServiceImpl implements FizzBuzzService {
     FizzBuzzFileDao dao;
 
     @Override
-    public FizzBuzz findByName(int firstNumber) {
+    public List<String> findByName(int firstNumber) {
 
         IntStream range = IntStream.rangeClosed(firstNumber, 1000);
 
         // TODO - Posar try catch amb classe custom d'excepcions.
-        FizzBuzz fizzBuzz = new FizzBuzz(range.parallel().mapToObj(FizzBuzzServiceImpl::calculateFizzBuzz)
-                .collect(Collectors.joining(", ")));
-        return fizzBuzz;
+        String fizzBuzzString = range.parallel().mapToObj(FizzBuzzServiceImpl::calculateFizzBuzz)
+                .collect(Collectors.joining(", "));
+        FizzBuzz fizzBuzz = new FizzBuzz();
+        return Arrays.stream(fizzBuzzString.split(", ")).parallel().collect(Collectors.toList());
     }
 
     public static String calculateFizzBuzz(int number) {

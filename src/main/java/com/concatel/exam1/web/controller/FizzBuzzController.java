@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/api/fizzbuzz")
 public class FizzBuzzController {
@@ -15,7 +17,7 @@ public class FizzBuzzController {
 
     @RequestMapping(value = "/{firstNumber}", method = RequestMethod.GET)
     @ResponseBody
-    public FizzBuzz findOne(@PathVariable("firstNumber") int firstNumber) {
+    public List<String> findOne(@PathVariable("firstNumber") int firstNumber) {
 
         return fizzBuzzService.findByName(firstNumber);
     }
