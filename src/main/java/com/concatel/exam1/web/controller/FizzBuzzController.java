@@ -1,6 +1,6 @@
 package com.concatel.exam1.web.controller;
 
-import com.concatel.exam1.persistence.model.FizzBuzz;
+import com.concatel.exam1.persistence.model.FizzBuzzClient;
 import com.concatel.exam1.service.FizzBuzzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ public class FizzBuzzController {
 
     @RequestMapping(value = "/{firstNumber}", method = RequestMethod.GET)
     @ResponseBody
-    public List<String> findOne(@PathVariable("firstNumber") int firstNumber) {
+    public FizzBuzzClient findOne(@PathVariable("firstNumber") int firstNumber) {
 
         return fizzBuzzService.findByName(firstNumber);
     }

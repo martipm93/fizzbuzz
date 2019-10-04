@@ -1,12 +1,15 @@
 package com.concatel.exam1.service.impl;
 
 import com.concatel.exam1.persistence.dao.FizzBuzzFileDao;
-import com.concatel.exam1.persistence.model.FizzBuzz;
+import com.concatel.exam1.persistence.model.FizzBuzzClient;
+import com.concatel.exam1.persistence.model.FizzBuzzEntry;
 import com.concatel.exam1.service.FizzBuzzService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,15 +21,19 @@ public class FizzBuzzServiceImpl implements FizzBuzzService {
     FizzBuzzFileDao dao;
 
     @Override
-    public List<String> findByName(int firstNumber) {
+    public FizzBuzzClient findByName(int firstNumber) {
 
         IntStream range = IntStream.rangeClosed(firstNumber, 1000);
 
         // TODO - Posar try catch amb classe custom d'excepcions.
-        String fizzBuzzString = range.parallel().mapToObj(FizzBuzzServiceImpl::calculateFizzBuzz)
-                .collect(Collectors.joining(", "));
-        FizzBuzz fizzBuzz = new FizzBuzz();
-        return Arrays.stream(fizzBuzzString.split(", ")).parallel().collect(Collectors.toList());
+
+        List<String> fizzbuzzList = range.parallel().mapToObj(FizzBuzzServiceImpl::calculateFizzBuzz)
+                .collect(Collectors.toList());
+
+        FizzBuzzEntry fizzBuzzEntry = new FizzBuzzEntry(fizzbuzzList.stream().parallel().collect(Collectors.joining(", ")), ZonedDateTime.of(LocalDateTime.now(),
+                ZoneId.systemDefault()).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        FizzBuzzClient fizzBuzzClient = new FizzBuzzClient(fizzbuzzList);
+        return fizzBuzzClient;
     }
 
     public static String calculateFizzBuzz(int number) {
