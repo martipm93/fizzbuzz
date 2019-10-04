@@ -1,29 +1,28 @@
 package com.concatel.exam1.persistence.model;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 public class FizzBuzzEntry {
 
     private String fizzBuzzString;
 
-    private String timeStamp;
+    private String timestamp;
 
     public FizzBuzzEntry() {
 
     }
 
-    public FizzBuzzEntry(String fizzBuzzString, String timeStamp) {
+    public FizzBuzzEntry(String fizzBuzzString, String timestamp) {
         this.fizzBuzzString = fizzBuzzString;
-        this.timeStamp = timeStamp;
+        this.timestamp = timestamp;
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
+    public String gettimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public void settimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
 
@@ -38,7 +37,7 @@ public class FizzBuzzEntry {
     @Override
     public String toString() {
         return "FizzBuzzEntry{" +
-                "timeStamp=" + timeStamp +
+                "timestamp=" + timestamp +
                 ", fizzBuzzString=" + fizzBuzzString +
                 '}';
     }
@@ -49,12 +48,12 @@ public class FizzBuzzEntry {
         if (o == null || getClass() != o.getClass()) return false;
         FizzBuzzEntry fizzBuzzEntry = (FizzBuzzEntry) o;
         return Objects.equals(fizzBuzzString, fizzBuzzEntry.fizzBuzzString) &&
-                Objects.equals(timeStamp, fizzBuzzEntry.timeStamp);
+                Objects.equals(timestamp, fizzBuzzEntry.timestamp);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(fizzBuzzString, timeStamp);
+        return Objects.hash(fizzBuzzString, timestamp);
     }
 }

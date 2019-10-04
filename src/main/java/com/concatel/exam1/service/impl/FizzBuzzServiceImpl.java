@@ -4,6 +4,7 @@ import com.concatel.exam1.persistence.dao.FizzBuzzFileDao;
 import com.concatel.exam1.persistence.model.FizzBuzzClient;
 import com.concatel.exam1.persistence.model.FizzBuzzEntry;
 import com.concatel.exam1.service.FizzBuzzService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,10 +16,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
-public class FizzBuzzServiceImpl implements FizzBuzzService {
+public class FizzBuzzServiceImpl implements FizzBuzzService<FizzBuzzClient> {
 
-    //@Autowired
-    FizzBuzzFileDao dao;
+    @Autowired
+    FizzBuzzFileDao<FizzBuzzEntry> dao;
 
     @Override
     public FizzBuzzClient findByName(int firstNumber) {
@@ -27,11 +28,18 @@ public class FizzBuzzServiceImpl implements FizzBuzzService {
 
         // TODO - Posar try catch amb classe custom d'excepcions.
 
+        //Get the list of fizz-buzz strings concurrently with stream parallel.
         List<String> fizzbuzzList = range.parallel().mapToObj(FizzBuzzServiceImpl::calculateFizzBuzz)
                 .collect(Collectors.toList());
 
+        //Get the fizz-buzz string representation and the timestamp and set it all into the FizzBuzzEntry object.
         FizzBuzzEntry fizzBuzzEntry = new FizzBuzzEntry(fizzbuzzList.stream().parallel().collect(Collectors.joining(", ")), ZonedDateTime.of(LocalDateTime.now(),
                 ZoneId.systemDefault()).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+
+        //Write the FizzBuzzEntry object in the file.
+        dao.write(fizzBuzzEntry);
+
+        //Return the FizzBuzzClient object with the list of the fizz-buzz strings.
         FizzBuzzClient fizzBuzzClient = new FizzBuzzClient(fizzbuzzList);
         return fizzBuzzClient;
     }
