@@ -8,8 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-@Controller
+@RestController
 @RequestMapping(value = "/api/fizzbuzz")
 public class FizzBuzzController {
 
@@ -18,8 +19,8 @@ public class FizzBuzzController {
 
     @RequestMapping(value = "/{firstNumber}", method = RequestMethod.GET)
     @ResponseBody
-    public FizzBuzzClient findOne(@PathVariable("firstNumber") int firstNumber) {
+    public FizzBuzzClient findOne(@PathVariable("firstNumber") int firstNumber) throws InterruptedException, ExecutionException {
 
-        return fizzBuzzService.findByName(firstNumber);
+        return fizzBuzzService.findByName(firstNumber).get();
     }
 }

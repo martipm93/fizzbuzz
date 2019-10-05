@@ -5,6 +5,7 @@ import com.concatel.exam1.persistence.model.FizzBuzzClient;
 import com.concatel.exam1.persistence.model.FizzBuzzEntry;
 import com.concatel.exam1.service.FizzBuzzService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -22,8 +24,10 @@ public class FizzBuzzServiceImpl implements FizzBuzzService<FizzBuzzClient> {
     FizzBuzzFileDao<FizzBuzzEntry> dao;
 
     @Override
-    public FizzBuzzClient findByName(int firstNumber) {
+    @Async("asyncExecutor")
+    public CompletableFuture<FizzBuzzClient> findByName(int firstNumber) {
 
+        // TODO - Treure el 1000 i posar número límit d'un arxiu de configuració.
         IntStream range = IntStream.rangeClosed(firstNumber, 1000);
 
         // TODO - Posar try catch amb classe custom d'excepcions.
@@ -41,7 +45,7 @@ public class FizzBuzzServiceImpl implements FizzBuzzService<FizzBuzzClient> {
 
         //Return the FizzBuzzClient object with the list of the fizz-buzz strings.
         FizzBuzzClient fizzBuzzClient = new FizzBuzzClient(fizzbuzzList);
-        return fizzBuzzClient;
+        return CompletableFuture.completedFuture(fizzBuzzClient);
     }
 
     public static String calculateFizzBuzz(int number) {
