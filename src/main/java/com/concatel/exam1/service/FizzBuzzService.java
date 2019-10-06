@@ -6,5 +6,5 @@ import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 
 public interface FizzBuzzService<T> extends Serializable {
-    CompletableFuture<FizzBuzzClient> findByName(int firstNumber)  throws InterruptedException;
+    CompletableFuture<FizzBuzzClient> findByName(Integer firstNumber)  throws InterruptedException;
 }

@@ -6,11 +6,11 @@ public class FizzBuzzClient {
 
     private List<String> fizzBuzzList;
 
-    public FizzBuzzClient() {
+    public FizzBuzzClient () {
 
     }
 
-    public FizzBuzzClient(List<String> fizzbuzzList) {
+    public FizzBuzzClient ( List<String> fizzbuzzList ) {
         this.fizzBuzzList = fizzbuzzList;
     }
 
@@ -18,7 +18,7 @@ public class FizzBuzzClient {
         return fizzBuzzList;
     }
 
-    public void setFizzBuzzList(List<String> fizzBuzzList) {
+    public void setFizzBuzzList ( List<String> fizzBuzzList ) {
         this.fizzBuzzList = fizzBuzzList;
     }
 

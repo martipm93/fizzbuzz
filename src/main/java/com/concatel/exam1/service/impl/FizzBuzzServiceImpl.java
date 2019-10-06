@@ -1,6 +1,7 @@
 package com.concatel.exam1.service.impl;
 
 import com.concatel.exam1.constants.FizzBuzzConstants;
+import com.concatel.exam1.exceptions.FizzBuzzNullCustomException;
 import com.concatel.exam1.persistence.dao.FizzBuzzFileDao;
 import com.concatel.exam1.persistence.model.FizzBuzzClient;
 import com.concatel.exam1.persistence.model.FizzBuzzEntry;
@@ -26,40 +27,62 @@ public class FizzBuzzServiceImpl implements FizzBuzzService<FizzBuzzClient> {
 
     @Override
     @Async("asyncExecutor")
-    public CompletableFuture<FizzBuzzClient> findByName(int firstNumber) {
-        
-        IntStream range = IntStream.rangeClosed(firstNumber, FizzBuzzConstants.LIMIT_FIZZBUZZ_NUMBER);
+    public CompletableFuture<FizzBuzzClient> findByName ( Integer firstNumber ) {
 
-        // TODO - Posar try catch amb classe custom d'excepcions.
+        FizzBuzzClient fizzBuzzClient = new FizzBuzzClient();
+        try {
+            if ( firstNumber == null ) {
+                throw new FizzBuzzNullCustomException("firstNumber");
+            }
 
-        //Get the list of fizz-buzz strings concurrently with stream parallel.
-        List<String> fizzbuzzList = range.parallel().mapToObj(FizzBuzzServiceImpl::calculateFizzBuzz)
-                .collect(Collectors.toList());
+            if ( firstNumber < 0 || firstNumber > FizzBuzzConstants.LIMIT_FIZZBUZZ_NUMBER ) {
+                throw new IllegalArgumentException("The start number must be positive and smaller than the limit" +
+                        " number ("+ FizzBuzzConstants.LIMIT_FIZZBUZZ_NUMBER +")");
+            }
+            IntStream range = IntStream.rangeClosed(firstNumber, FizzBuzzConstants.LIMIT_FIZZBUZZ_NUMBER);
 
-        //Get the fizz-buzz string representation and the timestamp and set it all into the FizzBuzzEntry object.
-        FizzBuzzEntry fizzBuzzEntry = new FizzBuzzEntry(fizzbuzzList.stream().parallel()
-                .collect(Collectors.joining(", ")), ZonedDateTime.of(LocalDateTime.now(),
-                ZoneId.systemDefault()).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            //Get the list of fizz-buzz strings concurrently with stream parallel.
+            List<String> fizzbuzzList = range.parallel().mapToObj(FizzBuzzServiceImpl::calculateFizzBuzz)
+                    .collect(Collectors.toList());
 
-        //Write the FizzBuzzEntry object in the file.
-        dao.write(fizzBuzzEntry);
+            //Get the fizz-buzz string representation and the timestamp and set it all into the FizzBuzzEntry object.
+            FizzBuzzEntry fizzBuzzEntry = new FizzBuzzEntry(fizzbuzzList.stream().parallel()
+                    .collect(Collectors.joining(", ")), ZonedDateTime.of(LocalDateTime.now(),
+                    ZoneId.systemDefault()).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 
+            //Write the FizzBuzzEntry object in the file.
+            dao.write(fizzBuzzEntry);
+
+            fizzBuzzClient.setFizzBuzzList(fizzbuzzList);
+
+        } catch ( FizzBuzzNullCustomException e ) {
+            e.printStackTrace();
+        } catch ( IllegalArgumentException e ) {
+            e.printStackTrace();
+        }
         //Return the FizzBuzzClient object with the list of the fizz-buzz strings.
-        FizzBuzzClient fizzBuzzClient = new FizzBuzzClient(fizzbuzzList);
         return CompletableFuture.completedFuture(fizzBuzzClient);
     }
 
-    public static String calculateFizzBuzz(int number) {
-        String fizzBuzzWord;
+    public static String calculateFizzBuzz(Integer number) {
+        String fizzBuzzWord = "";
+        try {
 
-        if (number % 3 == 0 && number % 5 == 0) {
-            fizzBuzzWord = "fizzbuzz";
-        } else if (number % 3 == 0) {
-            fizzBuzzWord = "fizz";
-        } else if (number % 5 == 0) {
-            fizzBuzzWord = "buzz";
-        } else {
-            fizzBuzzWord = Integer.toString(number);
+            if ( number == null ) {
+                throw new FizzBuzzNullCustomException("number");
+            }
+
+            if ( number % 3 == 0 && number % 5 == 0 ) {
+                fizzBuzzWord = "fizzbuzz";
+            } else if ( number % 3 == 0 ) {
+                fizzBuzzWord = "fizz";
+            } else if ( number % 5 == 0 ) {
+                fizzBuzzWord = "buzz";
+            } else {
+                fizzBuzzWord = Integer.toString(number);
+            }
+        } catch ( FizzBuzzNullCustomException e ) {
+            e.printStackTrace();
         }
         return fizzBuzzWord;
     }
