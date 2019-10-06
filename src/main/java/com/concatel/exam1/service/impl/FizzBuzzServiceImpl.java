@@ -1,5 +1,6 @@
 package com.concatel.exam1.service.impl;
 
+import com.concatel.exam1.constants.FizzBuzzConstants;
 import com.concatel.exam1.persistence.dao.FizzBuzzFileDao;
 import com.concatel.exam1.persistence.model.FizzBuzzClient;
 import com.concatel.exam1.persistence.model.FizzBuzzEntry;
@@ -26,9 +27,8 @@ public class FizzBuzzServiceImpl implements FizzBuzzService<FizzBuzzClient> {
     @Override
     @Async("asyncExecutor")
     public CompletableFuture<FizzBuzzClient> findByName(int firstNumber) {
-
-        // TODO - Treure el 1000 i posar número límit d'un arxiu de configuració.
-        IntStream range = IntStream.rangeClosed(firstNumber, 1000);
+        
+        IntStream range = IntStream.rangeClosed(firstNumber, FizzBuzzConstants.LIMIT_FIZZBUZZ_NUMBER);
 
         // TODO - Posar try catch amb classe custom d'excepcions.
 
@@ -37,7 +37,8 @@ public class FizzBuzzServiceImpl implements FizzBuzzService<FizzBuzzClient> {
                 .collect(Collectors.toList());
 
         //Get the fizz-buzz string representation and the timestamp and set it all into the FizzBuzzEntry object.
-        FizzBuzzEntry fizzBuzzEntry = new FizzBuzzEntry(fizzbuzzList.stream().parallel().collect(Collectors.joining(", ")), ZonedDateTime.of(LocalDateTime.now(),
+        FizzBuzzEntry fizzBuzzEntry = new FizzBuzzEntry(fizzbuzzList.stream().parallel()
+                .collect(Collectors.joining(", ")), ZonedDateTime.of(LocalDateTime.now(),
                 ZoneId.systemDefault()).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 
         //Write the FizzBuzzEntry object in the file.

@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -25,7 +24,6 @@ public class FizzBuzzFileDaoImpl implements FizzBuzzFileDao<FizzBuzzEntry> {
             e.printStackTrace();
         }
 
-        //Use try-with-resource to get auto-closeable writer instance
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString(), true)))
         {
             writer.write(fizzBuzzEntry.toString().concat("\n\n"));
