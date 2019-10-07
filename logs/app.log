@@ -1,0 +1,10 @@
+2019-10-07 21:10:44,753 INFO c.c.e.FizzBuzzApplicationTests [main] Starting FizzBuzzApplicationTests on DESKTOP-UH6RRJ1 with PID 7268 (started by marti in C:\Users\marti\Workspace\exam1)
+2019-10-07 21:10:44,769 DEBUG c.c.e.FizzBuzzApplicationTests [main] Running with Spring Boot v2.1.8.RELEASE, Spring v5.1.9.RELEASE
+2019-10-07 21:10:44,770 INFO c.c.e.FizzBuzzApplicationTests [main] No active profile set, falling back to default profiles: default
+2019-10-07 21:10:48,813 INFO c.c.e.FizzBuzzApplicationTests [main] Started FizzBuzzApplicationTests in 4.303 seconds (JVM running for 5.634)
+2019-10-07 21:10:57,010 INFO c.c.e.FizzBuzzApplication [main] Starting FizzBuzzApplication on DESKTOP-UH6RRJ1 with PID 12196 (C:\Users\marti\Workspace\exam1\target\classes started by marti in C:\Users\marti\Workspace\exam1)
+2019-10-07 21:10:57,015 DEBUG c.c.e.FizzBuzzApplication [main] Running with Spring Boot v2.1.8.RELEASE, Spring v5.1.9.RELEASE
+2019-10-07 21:10:57,015 INFO c.c.e.FizzBuzzApplication [main] No active profile set, falling back to default profiles: default
+2019-10-07 21:10:59,155 INFO c.c.e.FizzBuzzApplication [main] Started FizzBuzzApplication in 2.477 seconds (JVM running for 3.579)
+2019-10-07 21:11:19,118 INFO c.c.e.w.c.FizzBuzzController [http-nio-8080-exec-2] Initiation of the 'findOne' method of FizzBuzzController.
+2019-10-07 21:11:19,137 INFO c.c.e.w.c.FizzBuzzController [http-nio-8080-exec-2] End of the 'findOne' method of FizzBuzzController.

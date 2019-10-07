@@ -27,7 +27,7 @@ public class FizzBuzzServiceImpl implements FizzBuzzService<FizzBuzzClient> {
 
     @Override
     @Async("asyncExecutor")
-    public CompletableFuture<FizzBuzzClient> findByName ( Integer firstNumber ) {
+    public CompletableFuture<FizzBuzzClient> findById ( Integer firstNumber ) {
 
         FizzBuzzClient fizzBuzzClient = new FizzBuzzClient();
         try {

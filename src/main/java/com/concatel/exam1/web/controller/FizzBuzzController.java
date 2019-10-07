@@ -3,12 +3,12 @@ package com.concatel.exam1.web.controller;
 import com.concatel.exam1.exceptions.FizzBuzzNullCustomException;
 import com.concatel.exam1.persistence.model.FizzBuzzClient;
 import com.concatel.exam1.service.FizzBuzzService;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -18,9 +18,13 @@ public class FizzBuzzController {
     @Autowired
     private FizzBuzzService<FizzBuzzClient> fizzBuzzService;
 
+    private static final Logger logger = LogManager.getLogger(FizzBuzzController.class);
+
     @RequestMapping(value = "/{firstNumber}", method = RequestMethod.GET)
     @ResponseBody
     public FizzBuzzClient findOne ( @PathVariable("firstNumber" ) Integer firstNumberParameter ) {
+
+        logger.info("Initiation of the 'findOne' method of FizzBuzzController.");
 
         FizzBuzzClient fizzBuzzClient = new FizzBuzzClient();
 
@@ -30,7 +34,7 @@ public class FizzBuzzController {
                 throw new FizzBuzzNullCustomException("firstNumberParameter");
             }
 
-            fizzBuzzClient = fizzBuzzService.findByName(firstNumberParameter).get();
+            fizzBuzzClient = fizzBuzzService.findById(firstNumberParameter).get();
 
             if ( fizzBuzzClient == null ) {
                 throw new FizzBuzzNullCustomException("fizzBuzzClient");
@@ -43,6 +47,8 @@ public class FizzBuzzController {
         } catch ( ExecutionException e ) {
             e.printStackTrace();
         }
+
+        logger.info("End of the 'findOne' method of FizzBuzzController.");
 
         return fizzBuzzClient;
     }
