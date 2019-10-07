@@ -6,6 +6,9 @@ import com.concatel.exam1.persistence.dao.FizzBuzzFileDao;
 import com.concatel.exam1.persistence.model.FizzBuzzClient;
 import com.concatel.exam1.persistence.model.FizzBuzzEntry;
 import com.concatel.exam1.service.FizzBuzzService;
+import com.concatel.exam1.web.controller.FizzBuzzController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -25,9 +28,13 @@ public class FizzBuzzServiceImpl implements FizzBuzzService<FizzBuzzClient> {
     @Autowired
     FizzBuzzFileDao<FizzBuzzEntry> dao;
 
+    private static final Logger logger = LogManager.getLogger(FizzBuzzController.class);
+
     @Override
     @Async("asyncExecutor")
     public CompletableFuture<FizzBuzzClient> findById ( Integer firstNumber ) {
+
+        logger.info("Initiation of the 'findById' method of FizzBuzzServiceImpl.");
 
         FizzBuzzClient fizzBuzzClient = new FizzBuzzClient();
         try {
@@ -36,7 +43,7 @@ public class FizzBuzzServiceImpl implements FizzBuzzService<FizzBuzzClient> {
             }
 
             if ( firstNumber < 0 || firstNumber > FizzBuzzConstants.LIMIT_FIZZBUZZ_NUMBER ) {
-                throw new IllegalArgumentException("The start number must be positive and smaller than the limit" +
+               logger.warn("The start number must be positive and smaller than the limit" +
                         " number ("+ FizzBuzzConstants.LIMIT_FIZZBUZZ_NUMBER +")");
             }
             IntStream range = IntStream.rangeClosed(firstNumber, FizzBuzzConstants.LIMIT_FIZZBUZZ_NUMBER);
@@ -56,15 +63,18 @@ public class FizzBuzzServiceImpl implements FizzBuzzService<FizzBuzzClient> {
             fizzBuzzClient.setFizzBuzzList(fizzbuzzList);
 
         } catch ( FizzBuzzNullCustomException e ) {
-            e.printStackTrace();
-        } catch ( IllegalArgumentException e ) {
+            logger.error(e.getMessage());
             e.printStackTrace();
         }
+
+        logger.info("End of the 'findById' method of FizzBuzzServiceImpl.");
+
         //Return the FizzBuzzClient object with the list of the fizz-buzz strings.
         return CompletableFuture.completedFuture(fizzBuzzClient);
     }
 
     public static String calculateFizzBuzz(Integer number) {
+
         String fizzBuzzWord = "";
         try {
 
@@ -82,8 +92,10 @@ public class FizzBuzzServiceImpl implements FizzBuzzService<FizzBuzzClient> {
                 fizzBuzzWord = Integer.toString(number);
             }
         } catch ( FizzBuzzNullCustomException e ) {
+            logger.error(e.getMessage());
             e.printStackTrace();
         }
+
         return fizzBuzzWord;
     }
 }

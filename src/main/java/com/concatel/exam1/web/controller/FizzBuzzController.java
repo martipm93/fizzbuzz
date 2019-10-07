@@ -41,6 +41,7 @@ public class FizzBuzzController {
             }
 
         } catch ( FizzBuzzNullCustomException e ) {
+            logger.error(e.getMessage());
             e.printStackTrace();
         } catch ( InterruptedException e ) {
             e.printStackTrace();

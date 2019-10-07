@@ -3,6 +3,9 @@ package com.concatel.exam1.persistence.dao.impl;
 import com.concatel.exam1.exceptions.FizzBuzzNullCustomException;
 import com.concatel.exam1.persistence.dao.FizzBuzzFileDao;
 import com.concatel.exam1.persistence.model.FizzBuzzEntry;
+import com.concatel.exam1.web.controller.FizzBuzzController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
@@ -15,8 +18,14 @@ import java.nio.file.Paths;
 
 @Repository
 public class FizzBuzzFileDaoImpl implements FizzBuzzFileDao<FizzBuzzEntry> {
+
+    private static final Logger logger = LogManager.getLogger(FizzBuzzController.class);
+
     @Override
     public void write ( FizzBuzzEntry fizzBuzzEntry ) {
+
+        logger.info("Initiation of the 'write' method of FizzBuzzFileDaoImpl.");
+
         URL res = getClass().getClassLoader().getResource("FizzBuzzRegister.txt");
         Path path = null;
 
@@ -29,6 +38,7 @@ public class FizzBuzzFileDaoImpl implements FizzBuzzFileDao<FizzBuzzEntry> {
             path = Paths.get(res.toURI());
 
         } catch ( FizzBuzzNullCustomException e ) {
+            logger.error(e.getMessage());
             e.printStackTrace();
         } catch ( URISyntaxException e ) {
             e.printStackTrace();
@@ -40,5 +50,6 @@ public class FizzBuzzFileDaoImpl implements FizzBuzzFileDao<FizzBuzzEntry> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        logger.info("End of the 'findOne' method of FizzBuzzController.");
     }
 }
